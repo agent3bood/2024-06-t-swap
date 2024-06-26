@@ -37,7 +37,7 @@ contract TSwapPoolTest is Test {
         poolToken.approve(address(pool), 200e18);
 
         // deposit just weth, to bring the value of pookToken high
-        pool.deposit(100e18, 0, 9, uint64(block.timestamp));
+        pool.deposit(100e18, 0, 1, uint64(block.timestamp));
 
         // initial liquidit provider is now trying to deposit
         vm.startPrank(liquidityProvider);
@@ -46,8 +46,17 @@ contract TSwapPoolTest is Test {
         pool.deposit(100e18, 100e18, 100e18, uint64(block.timestamp));
 
 
-        // price of toolToken is `Z200e18` instead of `~1e18`
+        // price of toolToken is `~200e18` instead of `~1e18`
         // which is 200% heigher
         console.log(pool.getPriceOfOnePoolTokenInWeth());
+
+        uint poolTokenPrice = pool.getPriceOfOnePoolTokenInWeth();
+        uint priceDiff = poolTokenPrice - 1e18;
+        uint priceAvg = (poolTokenPrice + 1e18) / 2;
+        uint pricePercentDiff = (priceDiff * 100) / priceAvg; // ~200
+        console.log(pricePercentDiff); // 198
+
+        uint pricePercentDiffTolerance = 5;
+        assertGt(pricePercentDiff, 200 - pricePercentDiffTolerance);
     }
 }
