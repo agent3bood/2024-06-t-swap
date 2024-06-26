@@ -60,5 +60,14 @@ contract TSwapPoolTest is Test {
             0,
             uint64(block.timestamp)
         );
+
+        // withdraw not working
+        vm.expectRevert();
+        pool.withdraw(
+            100e18,
+            0,
+            0,
+            uint64(block.timestamp)
+        );
     }
 }
