@@ -36,7 +36,7 @@ contract TSwapPoolTest is Test {
         weth.approve(address(pool), 200e18);
         poolToken.approve(address(pool), 200e18);
 
-        // deposit just weth, to bring the value of pookToken high
+        // deposit low amount of poolToken, to bring the value of pookToken high
         pool.deposit(100e18, 0, 1, uint64(block.timestamp));
 
         // initial liquidit provider is now trying to deposit
